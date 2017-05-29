@@ -6,3 +6,9 @@
 
 # Roomba 2.0
 Estudio y puesta en accion de un roomba 2.0 en Unity3D mejorando la version 1.
+
+<p align="center">
+
+<img src="https://github.com/MoonAntonio/u.roomba2/blob/master/res/001.gif?raw=true">
+
+</p>

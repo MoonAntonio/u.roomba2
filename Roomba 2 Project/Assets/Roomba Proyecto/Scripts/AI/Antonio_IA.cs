@@ -4,7 +4,7 @@
 // Autor: Antonio Mateo (Moon Antonio) 	antoniomt.moon@gmail.com				\\
 // Descripcion:		Inteligencia artificial del roomba							\\
 // Fecha Mod:		29/05/2017													\\
-// Ultima Mod:																	\\
+// Ultima Mod:		Fix vuelta a casa											\\
 //******************************************************************************\\
 
 #region Librerias
@@ -64,39 +64,47 @@ namespace Antonio.IA
 		/// <returns></returns>
 		private IEnumerator Decision()// Toma una decision dependiendo de los parametros del roomba
 		{
+			// Mientras el roomba este encendido
 			while (roombaSensores.encendido)
 			{
 				yield return new WaitForSeconds(timeActuacion);
-				// lista metodo contains
+
+				// Lista metodo contains
 				if (posVisitada.Count + 1 == w * h)
 				{
-
+					// Si la solucion es 0 volver a casa
 					if (solution.Count == 0)
 					{
-						VuelveACasa();//aplica A* para encontrar la ruta de casillas
+						// Aplica A* para encontrar la ruta de casillas a casa
+						VuelveACasa();
 					}
 					else
 					{
+						// Si no es 0 la solucion pero esta en la base
 						if (roombaSensores.currentposition == roombaSensores.Homeposition)
 						{
+							// Apagar
 							roombaAcciones.apagar();
 
 						}
 
+						// Si la solucion[0] esta en la posicion actual
 						if (solution[0] == roombaSensores.currentposition)
 						{
+							// Borrar de la lista
 							solution.RemoveAt(0);
-
-
 						}
-						//rommba vuelve por el camino que a pensado
+
+						// Rommba vuelve por el camino que a pensado
 						Vector2 relativeposition = Vector2.zero;
+
 						if (solution.Count > 0)
 						{
 							relativeposition = solution[0] - roombaSensores.currentposition;
 						}
 
 						Debug.Log(relativeposition);
+
 						switch (roombaSensores.rotacion)
 						{
 							case 0:
@@ -114,8 +122,6 @@ namespace Antonio.IA
 									{
 										roombaAcciones.girarIzquierda();
 									}
-
-
 								}
 
 								break;
@@ -135,7 +141,6 @@ namespace Antonio.IA
 									{
 										roombaAcciones.girarIzquierda();
 									}
-
 								}
 
 								break;
@@ -155,7 +160,6 @@ namespace Antonio.IA
 									{
 										roombaAcciones.girarIzquierda();
 									}
-
 								}
 								break;
 
@@ -176,25 +180,18 @@ namespace Antonio.IA
 									}
 								}
 								break;
-
-
-
 						}
 						continue;
 					}
 					//roombaAcciones.apagar();
-
-
-
 				}
 
 				if (roombaSensores.sensores.y == 1)
 				{
 					roombaAcciones.aspirar();
-					//continue hace q se salte todo lo de abajo y vuelva a empezar el bucle
+					// continue hace q se salte todo lo de abajo y vuelva a empezar el bucle
 					continue;
 				}
-
 
 				if ((roombaSensores.sensores.x == 1) || (posVisitada.Contains(SiguienteCasilla())))
 				{
@@ -225,52 +222,47 @@ namespace Antonio.IA
 		/// </summary>
 		public void VuelveACasa()// Vuelve a la base
 		{
+			// Inicializamos las listas
+			// Al ser DFS se usa cola o pila 
 			solution = new List<Vector2>();
 			Stack<Vector2> Frontera = new Stack<Vector2>();
+
 			Frontera.Push(roombaSensores.currentposition);
 
+			// Mientras la frontera no este vacia
 			while (Frontera.Count > 0)
 			{
 				//  Obtener un nodo a explorar(el primero de la lista)
 				Vector2 current = Frontera.Pop();
-				// Frontera.Remove(current);borra en la lista todos los current q sea iguales
-				//pero como en el algoritmo se borra el primero de la lista mejor el metodo de abajo
+
 				//Frontera.RemoveAt(0);
-				//al ser dfs se usa cola o pila
+				
+				// Agrega a la solucion la posicion actual
 				solution.Add(current);
 
-				// es este nodo la solucion?
+				// Si este nodo es la solucion
 				if (GetAbsoluto(current, roombaSensores.Homeposition) == 0)
 				{
+					// Si la condicion es cero se a encontrado la base y se a finalizado el algoritmo
 
-					//si-... finalizamos el algoritmo
-					// si la condicion es cero se a encontrado la base
-
-					Debug.Log("CAMINO A CASA ENCONTRADO");
+					Debug.Log("[LOG]: CAMINO A CASA ENCONTRADO !!");
 					return;
 				}
 
-
-
-				//no... obtener los hijos del nodo
+				// Si no es la solucion, obtener los hijos del nodo
 				List<Vector2> hijos = ObtenerCasillasAdyacentes(current);
 
-				//ordenadar los hijos de menor a mayor modo heuristico
-
+				// Ordenar los hijos de menor a mayor (modo heuristico)
 				hijos = hijos.OrderByDescending(o => GetAbsoluto(o, roombaSensores.Homeposition)).ToList();
 
-
-				//se pasan ala frontera los hijos
-
+				// Se agregan a la frontera los hijos
 				foreach (Vector2 hijo in hijos)
 				{
 					Frontera.Push(hijo);
 				}
 			}
-
-
-			//Si el algoritmo lleaqui aqui no hay camino posible
-
+			// Si el algoritmo llega aqui no hay camino posible
+			Debug.LogWarning("[WARNING]: CAMINO A CASA NO ENCONTRADO !!");
 		}
 		#endregion
 
@@ -283,8 +275,9 @@ namespace Antonio.IA
 		/// <returns></returns>
 		private int GetAbsoluto(Vector2 a, Vector2 b)// Obtiene el valor absoluto
 		{
-			int ret;
-			ret = (int)Mathf.Abs(a.x - b.x) + (int)Mathf.Abs(a.y - b.y);
+			// Obtener valor absoluto
+			int ret = (int)Mathf.Abs(a.x - b.x) + (int)Mathf.Abs(a.y - b.y);
+
 			return ret;
 		}
 
