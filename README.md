@@ -5,6 +5,7 @@
 [![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/MoonAntonio/u.roomba2/master/LICENSE)
 
 # Roomba 2.0
+<<<<<<< HEAD
 Estudio y puesta en accion de un roomba 2.0 en Unity3D mejorando la version 1.
 
 <p align="center">
@@ -12,3 +13,6 @@ Estudio y puesta en accion de un roomba 2.0 en Unity3D mejorando la version 1.
 <img src="https://github.com/MoonAntonio/u.roomba2/blob/master/res/001.gif?raw=true">
 
 </p>
+=======
+Estudio y puesta en accion de un roomba 2.0 en Unity3D mejorando la version 1. Esta version es la presentada en la practica.
+>>>>>>> 2dc8f064ae09aa8460a400fd0f7765cdacbd1c5a
