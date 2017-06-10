@@ -19,6 +19,7 @@ namespace Antonio.IA
 	/// <summary>
 	/// <para>Inteligencia artificial del roomba</para>
 	/// </summary>
+	[AddComponentMenu("UI/Roomba/Antonio_IA"), RequireComponent(typeof(Actions))]
 	public class Antonio_IA : MonoBehaviour 
 	{
 		/* INFO
@@ -33,7 +34,7 @@ namespace Antonio.IA
 		*/
 
 		#region Variables Publicas
-		public actions roombaAcciones;
+		public Actions roombaAcciones;
 		public List<Vector2> posVisitada;
 		public Percepts roombaSensores;
 		public float timeActuacion = 1;
@@ -48,7 +49,7 @@ namespace Antonio.IA
 		private void Start()// Inicializador de Antonio_IA
 		{
 			// Asignamos las variables
-			roombaAcciones = GetComponent<actions>();
+			roombaAcciones = GetComponent<Actions>();
 			posVisitada = new List<Vector2>();
 			roombaSensores = GetComponent<Percepts>();
 
@@ -84,7 +85,7 @@ namespace Antonio.IA
 						if (roombaSensores.currentposition == roombaSensores.Homeposition)
 						{
 							// Apagar
-							roombaAcciones.apagar();
+							roombaAcciones.Apagar();
 
 						}
 
@@ -110,17 +111,17 @@ namespace Antonio.IA
 							case 0:
 								if (relativeposition.y > 0)
 								{
-									roombaAcciones.avanzar();
+									roombaAcciones.Avanzar();
 								}
 								else
 								{
 									if (relativeposition.x > 0)
 									{
-										roombaAcciones.girarDerecha();
+										roombaAcciones.GirarDerecha();
 									}
 									else
 									{
-										roombaAcciones.girarIzquierda();
+										roombaAcciones.GirarIzquierda();
 									}
 								}
 
@@ -129,17 +130,17 @@ namespace Antonio.IA
 							case 90:
 								if (relativeposition.x > 0)
 								{
-									roombaAcciones.avanzar();
+									roombaAcciones.Avanzar();
 								}
 								else
 								{
 									if (relativeposition.y < 0)
 									{
-										roombaAcciones.girarDerecha();
+										roombaAcciones.GirarDerecha();
 									}
 									else
 									{
-										roombaAcciones.girarIzquierda();
+										roombaAcciones.GirarIzquierda();
 									}
 								}
 
@@ -148,17 +149,17 @@ namespace Antonio.IA
 							case 180:
 								if (relativeposition.y < 0)
 								{
-									roombaAcciones.avanzar();
+									roombaAcciones.Avanzar();
 								}
 								else
 								{
 									if (relativeposition.x < 0)
 									{
-										roombaAcciones.girarDerecha();
+										roombaAcciones.GirarDerecha();
 									}
 									else
 									{
-										roombaAcciones.girarIzquierda();
+										roombaAcciones.GirarIzquierda();
 									}
 								}
 								break;
@@ -166,17 +167,17 @@ namespace Antonio.IA
 							case 270:
 								if (relativeposition.x < 0)
 								{
-									roombaAcciones.avanzar();
+									roombaAcciones.Avanzar();
 								}
 								else
 								{
 									if (relativeposition.y > 0)
 									{
-										roombaAcciones.girarDerecha();
+										roombaAcciones.GirarDerecha();
 									}
 									else
 									{
-										roombaAcciones.girarIzquierda();
+										roombaAcciones.GirarIzquierda();
 									}
 								}
 								break;
@@ -188,19 +189,19 @@ namespace Antonio.IA
 
 				if (roombaSensores.sensores.y == 1)
 				{
-					roombaAcciones.aspirar();
+					roombaAcciones.Aspirar();
 					// continue hace q se salte todo lo de abajo y vuelva a empezar el bucle
 					continue;
 				}
 
 				if ((roombaSensores.sensores.x == 1) || (posVisitada.Contains(SiguienteCasilla())))
 				{
-					roombaAcciones.girarDerecha();
+					roombaAcciones.GirarDerecha();
 				}
 				else
 				{
 					posVisitada.Add(roombaSensores.currentposition);
-					roombaAcciones.avanzar();
+					roombaAcciones.Avanzar();
 				}
 
 				if (posVisitada.Count > 0)

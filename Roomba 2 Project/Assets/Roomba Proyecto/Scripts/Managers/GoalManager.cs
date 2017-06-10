@@ -6,35 +6,30 @@ public class GoalManager : MonoBehaviour {
 
     public int puntos;
 
-    public void suciedadAspirada()
-    {
-        puntos += 100;
-    }
-
-    public void accionRealizada()
-    {
-        puntos -= 1;
-    }
-
-    public void apagarseFueradelaBase()
-    {
-        puntos -= 1000;
-    }
-
-
     public void SuciedadAspirada()
     {
         puntos += 100;
     }
 
-    public void apagar()
+    public void AccionRealizada()
+    {
+        puntos -= 1;
+    }
+
+    public void ApagarseFueradelaBase()
+    {
+        puntos -= 1000;
+    }
+
+
+    public void Apagar()
     {
         Debug.Log("Me apago");
         
     }
 
 
-    public void accionrealizada(int coste)
+    public void Accionrealizada(int coste)
     {
         puntos -= coste;
     }
