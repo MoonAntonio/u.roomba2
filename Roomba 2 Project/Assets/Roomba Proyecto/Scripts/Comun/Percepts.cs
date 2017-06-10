@@ -45,6 +45,10 @@ namespace Antonio.IA
 		/// </summary>
 		public bool encendido = true;                                   // Si el roomba esta encendido
 		/// <summary>
+		/// <para>Bateria del roomba.</para>
+		/// </summary>
+		public int bateria = 100;										// Bateria del roomba
+		/// <summary>
 		/// <para>Layer de la basura.</para>
 		/// </summary>
 		public LayerMask dondeestabasura;								// Layer de la basura

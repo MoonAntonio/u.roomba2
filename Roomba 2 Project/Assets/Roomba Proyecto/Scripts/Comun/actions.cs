@@ -29,7 +29,7 @@ namespace Antonio.IA
 			transform.Rotate(new Vector3(0, 90, 0));
 
 			// Mandamos un mensaje
-			SendMessage("Accionrealizada", 1, SendMessageOptions.DontRequireReceiver);
+			SendMessage("AccionRealizada", 1, SendMessageOptions.DontRequireReceiver);
 		}
 
 		/// <summary>
@@ -41,7 +41,7 @@ namespace Antonio.IA
 			transform.Rotate(new Vector3(0, -90, 0));
 
 			// Mandamos un mensaje
-			SendMessage("Accionrealizada", 1, SendMessageOptions.DontRequireReceiver);
+			SendMessage("AccionRealizada", 1, SendMessageOptions.DontRequireReceiver);
 		}
 
 		/// <summary>
@@ -53,7 +53,7 @@ namespace Antonio.IA
 			transform.localPosition += transform.forward;
 
 			// Mandamos un mensaje
-			SendMessage("Accionrealizada", 1, SendMessageOptions.DontRequireReceiver);
+			SendMessage("AccionRealizada", 1, SendMessageOptions.DontRequireReceiver);
 		}
 
 		/// <summary>
@@ -65,7 +65,7 @@ namespace Antonio.IA
 			GetComponent<Percepts>().encendido = false;
 
 			// Mandamos un mensaje
-			SendMessage("Accionrealizada", 1, SendMessageOptions.DontRequireReceiver);
+			SendMessage("AccionRealizada", 1, SendMessageOptions.DontRequireReceiver);
 		}
 
 		/// <summary>
@@ -85,7 +85,7 @@ namespace Antonio.IA
 			}
 
 			// Mandamos un mensaje
-			SendMessage("Accionrealizada", 1, SendMessageOptions.DontRequireReceiver);
+			SendMessage("AccionRealizada", 1, SendMessageOptions.DontRequireReceiver);
 		}
 		#endregion
 	}
