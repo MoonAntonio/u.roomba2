@@ -66,7 +66,7 @@ namespace Antonio.IA
 		private IEnumerator Decision()// Toma una decision dependiendo de los parametros del roomba
 		{
 			// Mientras el roomba este encendido
-			while (roombaSensores.encendido)
+			while (roombaSensores.encendido && roombaSensores.bateria > 0)
 			{
 				yield return new WaitForSeconds(timeActuacion);
 
