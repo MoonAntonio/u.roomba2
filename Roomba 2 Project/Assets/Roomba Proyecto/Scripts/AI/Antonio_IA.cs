@@ -19,7 +19,7 @@ namespace Antonio.IA
 	/// <summary>
 	/// <para>Inteligencia artificial del roomba</para>
 	/// </summary>
-	[AddComponentMenu("UI/Roomba/Antonio_IA"), RequireComponent(typeof(Actions))]
+	[AddComponentMenu("UI/Roomba/Antonio_IA"), RequireComponent(typeof(Actions)), RequireComponent(typeof(Percepts)), RequireComponent(typeof(GoalManager))]
 	public class Antonio_IA : MonoBehaviour 
 	{
 		/* INFO
@@ -82,7 +82,7 @@ namespace Antonio.IA
 					else
 					{
 						// Si no es 0 la solucion pero esta en la base
-						if (roombaSensores.currentposition == roombaSensores.Homeposition)
+						if (roombaSensores.currentposition == roombaSensores.homePosition)
 						{
 							// Apagar
 							roombaAcciones.Apagar();
@@ -242,7 +242,7 @@ namespace Antonio.IA
 				solution.Add(current);
 
 				// Si este nodo es la solucion
-				if (GetAbsoluto(current, roombaSensores.Homeposition) == 0)
+				if (GetAbsoluto(current, roombaSensores.homePosition) == 0)
 				{
 					// Si la condicion es cero se a encontrado la base y se a finalizado el algoritmo
 
@@ -254,7 +254,7 @@ namespace Antonio.IA
 				List<Vector2> hijos = ObtenerCasillasAdyacentes(current);
 
 				// Ordenar los hijos de menor a mayor (modo heuristico)
-				hijos = hijos.OrderByDescending(o => GetAbsoluto(o, roombaSensores.Homeposition)).ToList();
+				hijos = hijos.OrderByDescending(o => GetAbsoluto(o, roombaSensores.homePosition)).ToList();
 
 				// Se agregan a la frontera los hijos
 				foreach (Vector2 hijo in hijos)

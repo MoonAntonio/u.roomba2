@@ -1,87 +1,138 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿//                                  ┌∩┐(◣_◢)┌∩┐
+//																				\\
+// Percepts.cs (22/05/2017)														\\
+// Autor: Antonio Mateo (Moon Antonio) 	antoniomt.moon@gmail.com				\\
+// Descripcion:		Control de los sensores del roomba							\\
+// Fecha Mod:		22/05/2017													\\
+// Ultima Mod:		Version Inicial												\\
+//******************************************************************************\\
+
+#region Librerias
 using UnityEngine;
+#endregion
 
-public class Percepts : MonoBehaviour {
+namespace Antonio.IA
+{
+	/// <summary>
+	/// <para>Control de los sensores del roomba</para>
+	/// </summary>
+	[AddComponentMenu("UI/Roomba/Percepts")]
+	public class Percepts : MonoBehaviour
+	{
+		#region Variables Publicas
+		/// <summary>
+		/// <para>Actual posicion del roomba.</para>
+		/// </summary>
+		public Vector2 currentposition;                                 // Actual posicion del roomba
+		/// <summary>
+		/// <para>Los sensores del roomba.</para>
+		/// <para>(t,d,h)</para>
+		/// <para>t --> vale 1 si el agente choca con algo de frente, 0 si no hay ningún obstáculo</para>
+		/// <para>d --> vale 1 si hay suciedad en la localización del agente</para>
+		/// <para>h --> vale 1 si el agente está en su base</para>
+		/// </summary>
+		public Vector3 sensores;                                        // Los sensores del roomba
+		/// <summary>
+		/// <para>Rotacion del roomba.</para>
+		/// </summary>
+		public int rotacion;                                            // Rotacion del roomba
+		/// <summary>
+		/// <para>Posicion de la casa</para>
+		/// </summary>
+		public Vector2 homePosition;                                    // Posicion de la casa
+		/// <summary>
+		/// <para>Si el roomba esta encendido</para>
+		/// </summary>
+		public bool encendido = true;                                   // Si el roomba esta encendido
+		/// <summary>
+		/// <para>Layer de la basura.</para>
+		/// </summary>
+		public LayerMask dondeestabasura;								// Layer de la basura
+		/// <summary>
+		/// <para>Layer de la base.</para>
+		/// </summary>
+		public LayerMask dodneestalabase;								// Layer de la base
+		#endregion
 
-    public bool encendido = true;
+		#region Inicializadores
+		/// <summary>
+		/// <para>Inicializador de <see cref="Percepts"/>.</para>
+		/// </summary>
+		private void Start()// Inicializador de Percepts
+		{
+			// Reseteo de variables
+			currentposition = Vector2.zero;
+			sensores = Vector3.zero;
+		}
+		#endregion
 
-    public Vector2 currentposition;// (x,y)
-    public Vector3 sensores;//(t,d,h)
-                            //t--> vale 1 si el agente choca con algo de frente, 0 si no hay ningún obstáculo
-                            //d--> vale 1 si hay suciedad en la localización del agente
-                            //h--> vale 1 si el agente está en su base
+		#region Actualizadores
+		/// <summary>
+		/// <para>Actualizador de <see cref="Percepts"/>.</para>
+		/// </summary>
+		private void Update()// Actualizador de Percepts
+		{
+			// Asignar la posicion en XY y la rotacion
+			currentposition.x = Mathf.RoundToInt(transform.position.x);
+			currentposition.y = Mathf.RoundToInt(transform.position.z);
+			rotacion = (int)transform.rotation.eulerAngles.y;
 
-    public int rotacion;
-    public LayerMask dondeestabasura;
-    public LayerMask dodneestalabase;
-    public Vector2 Homeposition;
+			//sensores
+			RaycastHit rayodelante;
+			RaycastHit rayobajo;
 
-    
+			#region Debugs
+			// Debug hacia adelante
+			Debug.DrawRay(transform.position, transform.forward, Color.red);
+
+			// Debug hacia arriba
+			Debug.DrawRay(transform.position, transform.up * -1, Color.yellow);
+
+			// Debug hacia arriba
+			Debug.DrawRay(transform.position, transform.up * -1, Color.green);
+			#endregion
 
 
-    void Start () {
-        currentposition = Vector2.zero;
-        sensores = Vector3.zero;
+			// Raycast para detectar obstaculos
+			if (Physics.Raycast(transform.position, transform.forward, out rayodelante, 1))
+			{
+				// Detecto el obstaculo
+				sensores.x = 1;
+			}
+			else
+			{
+				// No Detecto el obstaculo
+				sensores.x = 0;
+			}
+
+			// Raycast para detectar basura
+			if (Physics.Raycast(transform.position, transform.up * -1, out rayobajo, 0.5f, dondeestabasura))
+			{
+				// Detecto el basura
+				sensores.y = 1;
+			}
+			else
+			{
+				// Detecto el basura
+				sensores.y = 0;
+			}
+
+			// Nota
+			// QueryTriggerInteraction -> El rayo detectara los triggers aunque este desactivada la opcion en Settings.
+
+			// Raycast para detectar la base
+			if (Physics.Raycast(transform.position, transform.up * -1, out rayobajo, 1, dodneestalabase, QueryTriggerInteraction.Collide))
+			{
+				// Detecto la base
+				sensores.z = 1;
+				homePosition = currentposition;
+			}
+			else
+			{
+				// No detecto la base
+				sensores.z = 0;
+			}
+		}
+		#endregion
 	}
-	
-	// Update is called once per frame
-	void Update () {
-        currentposition.x =Mathf.RoundToInt( transform.position.x);
-        currentposition.y = Mathf.RoundToInt(transform.position.z);
-        rotacion = (int)transform.rotation.eulerAngles.y;
-        //sensores
-
-        RaycastHit rayodelante;
-        RaycastHit rayobajo;
-            
-        Debug.DrawRay(transform.position, transform.forward, Color.red);
-        //el 0 es la duracion osea en cada fotograma se pinta y se borra
-        Debug.DrawRay(transform.position, transform.up*-1, Color.yellow);
-
-        //rayo que detecta la base
-        Debug.DrawRay(transform.position, transform.up * -1, Color.green);
-
-        //Rayo tira recto para detectar obstaculos
-        if ( Physics.Raycast(transform.position, transform.forward, out rayodelante, 1))
-        {
-            //detecta  el obstaculo
-            sensores.x = 1;
-        }else
-        {
-            sensores.x = 0;
-
-        }
-
-        //rayo se tira para abajo para detectr solo la basura
-        if (Physics.Raycast(transform.position, transform.up*-1, out rayobajo,0.5f,dondeestabasura))
-        {
-            //detecta  el obstaculo
-            sensores.y = 1;
-            Debug.Log(rayobajo.transform.name);
-        }
-        else
-        {
-            sensores.y = 0;
-
-        }
-
-        //rayo se tira para abajo para detectr solo la base 
-        // el ultimo parametro lo que hace que si en pyect setting fisic esta desmarcado queries hit trigger los ray no detecta triguers
-        //al ponerle ese parametro , aunq no este marcado los marcaaa
-        if (Physics.Raycast(transform.position, transform.up * -1, out rayobajo, 1, dodneestalabase,QueryTriggerInteraction.Collide))
-        {
-            //detecta  la base
-            sensores.z = 1;
-            Homeposition = currentposition;
-            Debug.Log(rayobajo.transform.name);
-        }
-        else
-        {
-            sensores.z = 0;
-
-        }
-
-
-    }
 }
