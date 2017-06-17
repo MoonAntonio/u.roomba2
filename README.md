@@ -6,7 +6,7 @@
 
 # Roomba 2.0
 
-Estudio y puesta en accion de un roomba 2.0 en Unity3D mejorando la version 1. Esta version es la presentada en la practica.
+Estudio y puesta en accion de un roomba 2.0 en Unity3D mejorando la version 1. Esta version es la presentada en la practica. [Roto]
 
 <p align="center">
 
