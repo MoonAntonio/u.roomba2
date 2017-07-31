@@ -3,6 +3,8 @@
 [![Trello](https://img.shields.io/badge/Trello-OFF-red.svg)](https://github.com/MoonAntonio/u.roomba2)
 [![Slack Status](https://moonantonio.herokuapp.com/badge.svg)](https://moonantonio.herokuapp.com/)
 [![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/MoonAntonio/u.roomba2/master/LICENSE)
+[![GitHub forks](https://img.shields.io/github/forks/MoonAntonio/u.roomba2.svg)](https://github.com/MoonAntonio/u.roomba2/network)
+[![GitHub stars](https://img.shields.io/github/stars/MoonAntonio/u.roomba2.svg)](https://github.com/MoonAntonio/u.roomba2/stargazers)
 
 # Roomba 2.0
 
